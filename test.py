@@ -13,38 +13,54 @@ class PlotFunction(GraphScene):
         "x_labeled_nums" :range(-10,12,2),
     }
 
+    def roots(a,b,c,d):
+        return []
+
     def construct(self):
         self.setup_axes(animate=True)
 
-        '''ef parametric(alpha):
-            t = interpolate(-3.5, 10, alpha)
-            x = self.y_func(t)
-            y = self.x_func(t)
+        a = 1
+        b = 3
+        c = 1
+        d = 1
 
-            if not np.isfinite(y):
-                y = 100
+        roots = self.roots(a,b,c,d)
 
-            if not np.isfinite(x):
-                x = 100
-            
-            return self.coords_to_point(x, y)'''
+        top_func_graph_part1 = self.get_graph(
+            self.top_func(a,b,c), color=BLUE,
+            x_min = roots[0], # Domain 1
+            x_max = roots[1]
+        )
+        bot_func_graph_part1 = self.get_graph(
+            self.bot_func(a,b,c), color=BLUE,
+            x_min = roots[0], # Domain 1
+            x_max = roots[1]
+        )
 
-        '''func_graph = ParametricFunction(
-            parametric,
-            color=RED,
-        )'''
+        top_func_graph_part2 = self.get_graph(
+            self.top_func(a,b,c), color=BLUE,
+            x_min = roots[2]
+        )
+        bot_func_graph_part2 = self.get_graph(
+            self.bot_func(a,b,c), color=BLUE,
+            x_min = roots[2]
+        )
 
-        top_func_graph = self.get_graph(self.top_func, color=BLUE)
-        bot_func_graph = self.get_graph(self.bot_func, color=BLUE)
-
-        self.play(ShowCreation(top_func_graph), ShowCreation(bot_func_graph))
+        self.play(
+            ShowCreation(top_func_graph_part1),
+            ShowCreation(bot_func_graph_part1)
+        )
+        self.play(
+            ShowCreation(top_func_graph_part2),
+            ShowCreation(bot_func_graph_part2)
+        )
         self.wait(5)
 
-    def top_func(self, x):
-        return (x ** 3 + -4.42 * x + 3) ** (.5)
+    def top_func(self, a,b,c,d):
+        return lambda x : (a * x ** 3 + b * x ** 2, c * x + d) ** (.5)
 
-    def bot_func(self, x):
-        return -(x ** 3 + -4.42 * x + 3) ** (.5)
+    def bot_func(self, a,b,c,d):
+        return lambda x : -(a * x ** 3 + b * x ** 2, c * x + d) ** (.5)
 
     def y_func(self, y):
         return y ** 2
