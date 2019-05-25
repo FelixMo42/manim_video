@@ -24,9 +24,24 @@ class PlotFunction(GraphScene):
     def drawFuncs(self, a,b,c,d, intit=False):
         roots = self.roots(a,b,c,d)
 
-        print(roots, len(roots))
+        if len(roots) == 1 and a < 0:
+            top_graph = self.get_graph(
+                self.top_func(a,b,c,d), color=BLUE,
+                x_max = roots[0]
+            )
+            bot_graph = self.get_graph(
+                self.bot_func(a,b,c,d), color=BLUE,
+                x_max = roots[0]
+            )
+            self.add(top_graph, bot_graph)
 
-        if len(roots) == 1:
+            def clear():
+                top_graph.clear_points()
+                bot_graph.clear_points()
+
+            return clear
+
+        if len(roots) == 1 and a > 0:
             top_graph = self.get_graph(
                 self.top_func(a,b,c,d), color=BLUE,
                 x_min = roots[0]
@@ -45,25 +60,57 @@ class PlotFunction(GraphScene):
 
         top_func_graph_part1 = self.get_graph(
             self.top_func(a,b,c,d), color=BLUE,
-            x_min = roots[2], # Domain 1
-            x_max = roots[1]
+            x_min = roots[1],
+            x_max = roots[2]
         )
         bot_func_graph_part1 = self.get_graph(
             self.bot_func(a,b,c,d), color=BLUE,
-            x_min = roots[2], # Domain 1
-            x_max = roots[1]
+            x_min = roots[1],
+            x_max = roots[2]
         )
 
-        top_func_graph_part2 = self.get_graph(
-            self.top_func(a,b,c,d), color=BLUE,
-            x_min = roots[0]
-        )
-        bot_func_graph_part2 = self.get_graph(
-            self.bot_func(a,b,c,d), color=BLUE,
-            x_min = roots[0]
-        )
+        if not intit:
+            self.add(
+                top_func_graph_part1,
+                bot_func_graph_part1
+            )
 
-        if intit:
+        top_func_graph_part2 = None
+        bot_func_graph_part2 = None
+
+        if a > 0 and not isinstance(self.top_func(a,b,c,d)(10), complex):
+            top_func_graph_part2 = self.get_graph(
+                self.top_func(a,b,c,d), color=BLUE,
+                x_min = roots[0]
+            )
+            bot_func_graph_part2 = self.get_graph(
+                self.bot_func(a,b,c,d), color=BLUE,
+                x_min = roots[0]
+            )
+
+            if not intit:
+                self.add(
+                    top_func_graph_part2,
+                    bot_func_graph_part2
+                )
+
+        if a < 0 and not isinstance(self.top_func(a,b,c,d)(-10), complex):
+            top_func_graph_part2 = self.get_graph(
+                self.top_func(a,b,c,d), color=BLUE,
+                x_max = roots[0]
+            )
+            bot_func_graph_part2 = self.get_graph(
+                self.bot_func(a,b,c,d), color=BLUE,
+                x_max = roots[0]
+            )
+
+            if not intit:
+                self.add(
+                    top_func_graph_part2,
+                    bot_func_graph_part2
+                )
+
+        '''if intit:
             self.play(
                 ShowCreation(top_func_graph_part1),
                 ShowCreation(bot_func_graph_part1)
@@ -71,21 +118,14 @@ class PlotFunction(GraphScene):
             self.play(
                 ShowCreation(top_func_graph_part2),
                 ShowCreation(bot_func_graph_part2)
-            )
-        else:
-            self.add(
-                top_func_graph_part1,
-                bot_func_graph_part1,
-                top_func_graph_part2,
-                bot_func_graph_part2
-            )
+            )'''
 
         def clear():
             top_func_graph_part1.clear_points()
             bot_func_graph_part1.clear_points()
-            top_func_graph_part2.clear_points()
-            bot_func_graph_part2.clear_points()
-
+            if top_func_graph_part2 is not None:
+                top_func_graph_part2.clear_points()
+                bot_func_graph_part2.clear_points()
 
         return clear
 
@@ -99,11 +139,12 @@ class PlotFunction(GraphScene):
 
         clear = self.drawFuncs(a,b,c,d, False)
 
-        for b in frange(-3, 0, .02):
-            self.wait(.1)
+        for a in frange(b, 3, .2):
+            if a != 0:
+                self.wait(.1)
 
-            clear()
-            clear = self.drawFuncs(a,b,c,d)
+                clear()
+                clear = self.drawFuncs(a,b,c,d)
 
         self.wait(5)
 
