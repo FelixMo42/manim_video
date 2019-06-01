@@ -6,6 +6,139 @@ def frange(x, y, jump):
     yield x
     x += jump
 
+class TitleScene(Scene):
+    def construct(self):
+        titleText = TextMobject("The Birch and Swinnerton-Dyer Conjecture")
+        subText = TextMobject("by: Felix and Milo")
+        subText.next_to(titleText, DOWN)
+        subText.scale(0.75)
+
+        self.add(titleText, subText)
+        self.wait(2)
+
+        self.play(FadeOut(subText))
+        self.play(FadeOut(titleText))        
+
+class TypesScene(Scene):
+    def construct(self):
+        types = [
+            "P vs NP",
+            "Probability",
+            "Differential Equation",
+            "F0 = F1 = 1, Fn = Fn-1 + Fn + 2"
+        ]
+
+        typesText = []
+        typesFunc = []
+
+        i = 0
+
+        random.seed(12)
+
+        for t in types:
+            text = TextMobject(t)
+
+            text.shift(
+                random.randint(-5, 5) * UP + i * 3 * RIGHT
+            )
+
+            i += 1
+
+            typesFunc.append(ApplyMethod(text.shift, 50 * LEFT, run_time=10.0, rate_func=linear))
+
+            typesText.append(text)
+
+        self.add(*typesText)
+        self.play(*typesFunc)
+
+        self.wait(1)
+
+class WhatIsItAboutScene(Scene):
+    def construct(self):
+        # a2
+        a2 = TextMobject("This is what mathmaticans do it for!")
+        a2.scale(0.90)
+        a2.set_color(YELLOW)
+
+        # a1
+        a1 = TextMobject("here it is:")
+        a1.scale(0.90)
+        a1.set_color(YELLOW)
+        a1.next_to(a2.get_edge_center(UP + LEFT), UP + RIGHT)
+
+        #auth
+        auth = TextMobject("- Probly Euler")
+        auth.scale(0.75)
+        auth.next_to(a2.get_corner(DOWN+RIGHT),DOWN)
+
+        #q4
+        q4 = TextMobject("Yang–Mills existence and mass gap")
+        q4.shift(3 * DOWN)
+
+        #q3
+        q3 = TextMobject("Riemann hypothesis")
+        q3.shift(1 * UP)
+
+        #q1
+        q1 = TextMobject("P versus NP")
+        q1.shift(3 * UP)
+
+        #q2
+        q2 = TextMobject("Hodge conjecture")
+        q2.shift(2 * UP)
+
+        #q5
+        q5 = TextMobject("Navier–Stokes existence and smoothness")
+        q5.shift(1 * DOWN)
+
+        #q6
+        q6 = TextMobject("Poincaré conjecture")
+        q6.shift(2 * DOWN)
+
+        #q7
+        q7 = TextMobject("Birch and Swinnerton-Dyer Conjecture")
+
+        self.play(Write(a1))
+        self.wait(.5)
+        self.play(Write(a2))
+        self.wait(1)
+        self.play(Write(auth))
+        self.wait(3)
+
+        self.play(
+            FadeOut(a1),
+            Transform(a2, q7),
+            FadeOut(auth)
+        )
+
+        self.wait(5)
+
+        
+        self.play(
+            Write(q6),
+            Write(q5),
+            Write(q4),
+            Write(q3),
+            Write(q2),
+            Write(q1)
+        )
+
+        self.wait(5)
+
+        self.play(
+            FadeOut(q6),
+            FadeOut(q5),
+            FadeOut(q4),
+            FadeOut(q3),
+            FadeOut(q2),
+            FadeOut(q1),
+            FadeOut(a2)
+        )
+
+class FunctionScene(Scene):
+    def construct(self):
+        pass
+
 class PlotFunction(GraphScene):
     CONFIG = {
         "x_min" : -10,
@@ -159,20 +292,4 @@ class PlotFunction(GraphScene):
 
     def x_func(self, x):
         return x ** 3 - x
-
-class Video(Scene):
-    def construct(self):
-        self.drawTitle()
-    
-    def drawTitle(self):
-        titleText = TextMobject("The Birch and Swinnerton-Dyer Conjecture")
-        subText = TextMobject("by: Felix and Milo")
-        subText.next_to(titleText, DOWN)
-        subText.scale(0.75)
-
-        self.add(titleText, subText)
-        self.wait(2)
-
-        self.play(FadeOut(subText))
-        self.play(FadeOut(titleText))
 
