@@ -126,6 +126,12 @@ class WhatIsItAboutScene(Scene):
         self.wait(5)
 
         self.play(
+            FadeToColor(q6, YELLOW)
+        )
+
+        self.wait(5)
+
+        self.play(
             FadeOut(q6),
             FadeOut(q5),
             FadeOut(q4),
@@ -137,7 +143,66 @@ class WhatIsItAboutScene(Scene):
 
 class FunctionScene(Scene):
     def construct(self):
-        pass
+        nums = TextMobject("x y")
+        equation = TextMobject("$$ 6x^{2} 9y^{3} = 8x + 12y^{5} $$")
+        xab = TextMobject("$$ x = \\frac{a}{b} $$")
+        xab.shift(DOWN + LEFT)
+        yab = TextMobject("$$ y = \\frac{a}{b} $$")
+        yab.shift(DOWN + RIGHT)
+        whole = TextMobject("a, b, c and d are whole numbers")
+        whole.shift(DOWN)
+        arrow = ArrowTip()
+        arrow.rotate(TAU / 4)
+
+        self.play(
+            Write(nums)
+        )
+
+        self.wait(2)
+
+        self.play(
+            Transform(nums, equation)
+        )
+
+        self.wait(2)
+
+        self.play(
+            Write(xab),
+            Write(yab)
+        )
+
+        self.wait(2)
+
+        self.play(
+            Transform(xab, whole),
+            Transform(yab, whole)
+        )
+
+        self.wait(2)
+
+        self.play(
+            ApplyMethod(nums.shift, UP),
+            FadeOutAndShiftDown(xab),
+            FadeOutAndShiftDown(yab)
+        )
+
+        self.wait(2)
+
+        sol = TextMobject("a, b, c and d are whole numbers")
+        sol.shift(DOWN)
+
+        self.play(
+            FadeIn(arrow),
+            FadeIn(sol)
+        )
+
+        self.wait(2)
+
+        self.play(
+            FadeOut(nums),
+            FadeOut(arrow),
+            FadeOut(sol)
+        )
 
 class PlotFunction(GraphScene):
     CONFIG = {
