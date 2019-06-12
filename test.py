@@ -240,6 +240,70 @@ class FunctionScene(Scene):
             FadeOut(sol)
         )
 
+class SolScene(Scene):
+    def construct(self):
+        p1 = TextMobject("$$ 6x^{1} = 9y^{1} + 19 $$")
+        p1.shift(UP * 2)
+
+        p2 = TextMobject("$$ 5x^{2} + 6y^{2} + 12x = 2y + 3 $$")
+
+        p3 = TextMobject("$$ y^{2} = 9x^{3} + 43x + 2 $$")
+        p3.shift(DOWN * 2)
+
+
+        self.play(
+            Write(p1)
+        )
+
+        self.wait(2)
+
+        self.play(
+            FadeToColor(p1, GREEN)
+        )
+
+        self.wait(2)
+
+        self.play(
+            Write(p2)
+        )
+
+        self.wait(2)
+
+        self.play(
+            FadeToColor(p2, GREEN)
+        )
+
+        self.wait(2)
+
+        self.play(
+            Write(p3)
+        )
+
+        self.wait(2)
+
+        self.play(
+            FadeToColor(p3, RED)
+        )
+
+        self.wait(2)
+
+        bs = TextMobject("Birch and Swinnerton-Dyer Conjectrue!")
+
+        self.play(
+            FadeOut(p1),
+            FadeOut(p2),
+            FadeOut(p3),
+            Write(bs)
+        )
+
+        func = TextMobject("$$ y^{2} = x^{3} + ax + b $$")
+
+        self.play(
+            Transform(bs, func)
+        )
+
+        self.wait(2)
+
 class PlotFunction(GraphScene):
     CONFIG = {
         "x_min" : -10,
@@ -364,7 +428,15 @@ class PlotFunction(GraphScene):
         return clear
 
     def construct(self):
-        self.setup_axes(animate=False)
+        func = TextMobject("$$ y^{2} = x^{3} + ax + b $$")
+        func.to_edge(UP)
+        self.add(func)
+
+        self.play(
+            ApplyMethod(func.to_edge, DOWN)
+        )
+
+        self.setup_axes(animate=True)
 
         a = 1
         b = -3
@@ -393,3 +465,56 @@ class PlotFunction(GraphScene):
 
     def x_func(self, x):
         return x ** 3 - x
+
+class FinishScene(Scene):
+    def construct(self):
+        e1 = TextMobject("$$ \\prod_{p\\leq x} \\approx C\\log\\left(x\\right)^r $$")
+        e1.shift(UP)
+        
+        e2 = TextMobject("$$ \\frac{L^{(r)}(E,1)}{r!}=\\frac{Sha(E)\\Omega_E R_E \\prod_{p|n}c_p}{(E_{Tor})^2} $$")
+        e2.shift(DOWN)
+
+        self.play(
+            Write(e1),
+            Write(e2)
+        )
+
+        self.wait(2)
+
+        qus = TextMobject("Do we know where it will help in real life?")
+
+        self.play(
+            FadeOut(e1),
+            FadeOut(e2),
+            Write(qus)
+        )
+
+        self.wait(2)
+
+        no = TextMobject("No")
+        no.scale(2)
+
+        self.play(Transform(qus, no))
+
+        self.wait(2)
+
+        heart = TextMobject("$$ \\ensuremath \\heartsuit $$")
+        heart.scale(10)
+        heart.set_color(PINK)
+
+        self.play(Transform(qus, heart))
+
+        dols = TextMobject("x \\$1,000,000")
+        dols.scale(2)
+        dols.shift(3 * DOWN)
+
+        self.play(
+            FadeInFrom(dols, RIGHT)
+        )
+
+        self.wait(2)
+
+        self.play(
+            FadeOut(qus),
+            FadeOut(dols)
+        )
