@@ -144,15 +144,16 @@ class WhatIsItAboutScene(Scene):
 class FunctionScene(Scene):
     def construct(self):
         nums = TextMobject("x y")
-        equation = TextMobject("$$ 6x^{2} 9y^{3} = 8x + 12y^{5} $$")
+        equation = TextMobject("$$ 6x^{2} + 9y^{3} = 8x + 12y^{5} $$")
         xab = TextMobject("$$ x = \\frac{a}{b} $$")
         xab.shift(DOWN + LEFT)
-        yab = TextMobject("$$ y = \\frac{a}{b} $$")
+        yab = TextMobject("$$ y = \\frac{c}{d} $$")
         yab.shift(DOWN + RIGHT)
         whole = TextMobject("a, b, c and d are whole numbers")
-        whole.shift(DOWN)
+        whole.shift(DOWN * 2)
         arrow = ArrowTip()
-        arrow.rotate(TAU / 4)
+        arrow.rotate_about_origin(TAU / 4)
+        arrow.shift(UP * 2)
 
         self.play(
             Write(nums)
@@ -174,33 +175,68 @@ class FunctionScene(Scene):
         self.wait(2)
 
         self.play(
-            Transform(xab, whole),
-            Transform(yab, whole)
+            Write(whole)
         )
 
         self.wait(2)
 
         self.play(
-            ApplyMethod(nums.shift, UP),
+            ApplyMethod(nums.shift, UP * 3),
             FadeOutAndShiftDown(xab),
-            FadeOutAndShiftDown(yab)
+            FadeOutAndShiftDown(yab),
+            FadeOutAndShiftDown(whole)
         )
 
         self.wait(2)
 
-        sol = TextMobject("a, b, c and d are whole numbers")
-        sol.shift(DOWN)
+        xnn = TextMobject("$$ x = \\frac{a}{b} $$")
+        xnn.shift(UP + LEFT)
+        ynn = TextMobject("$$ y = \\frac{c}{d} $$")
+        ynn.shift(UP + RIGHT)
 
         self.play(
             FadeIn(arrow),
-            FadeIn(sol)
+            FadeIn(xnn),
+            FadeIn(ynn)
+        )
+
+        self.wait(2)
+
+        sol = TextMobject("$$ 6(\\frac{6}{8})^{2} + 9(\\frac{9}{12})^{3} = 8(\\frac{9}{12}) + 12(\\frac{9}{12})^{5} $$")
+        sol.shift(DOWN * 1)
+
+        arrow2 = ArrowTip()
+        arrow2.rotate_about_origin(TAU / 4)
+        #arrow2.shift(DOWN)
+
+        arrow3 = ArrowTip()
+        arrow3.rotate_about_origin(TAU / 4)
+        arrow3.shift(DOWN * 2)
+
+        self.play(
+            FadeIn(sol),
+            FadeIn(arrow2)
+        )
+
+        self.wait(2)
+
+        nums = TextMobject("14.46... = 14.46... ")
+        nums.shift(DOWN * 3)
+
+        self.play(
+            FadeIn(nums),
+            FadeIn(arrow3)
         )
 
         self.wait(2)
 
         self.play(
             FadeOut(nums),
+            FadeOut(xnn),
+            FadeOut(ynn),
             FadeOut(arrow),
+            FadeOut(arrow2),
+            FadeOut(arrow3),
             FadeOut(sol)
         )
 
@@ -357,4 +393,3 @@ class PlotFunction(GraphScene):
 
     def x_func(self, x):
         return x ** 3 - x
-
