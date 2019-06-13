@@ -67,7 +67,7 @@ class WhatIsItAboutScene(Scene):
         a1.next_to(a2.get_edge_center(UP + LEFT), UP + RIGHT)
 
         #auth
-        auth = TextMobject("- Probly Euler")
+        auth = TextMobject("- Probably Euler")
         auth.scale(0.75)
         auth.next_to(a2.get_corner(DOWN+RIGHT),DOWN)
 
@@ -92,11 +92,15 @@ class WhatIsItAboutScene(Scene):
         q5.shift(1 * DOWN)
 
         #q6
-        q6 = TextMobject("Poincaré conjecture")
+        q6 = TextMobject("Poincare conjecture")
         q6.shift(2 * DOWN)
 
         #q7
         q7 = TextMobject("Birch and Swinnerton-Dyer Conjecture")
+
+        quote = TextMobject("$$ \\textrm{\"The Clay Mathmatics Institute} $$ $$ \\textrm{will further the beauty, and power} $$ $$ \\textrm{and universal of mathmatical thaught.\"} $$")
+        quote.to_edge(UP)
+        quote.set_color(YELLOW)
 
         self.play(Write(a1))
         self.wait(.5)
@@ -113,7 +117,18 @@ class WhatIsItAboutScene(Scene):
 
         self.wait(5)
 
-        
+        self.play(
+            Write(quote)
+        )
+
+        self.wait(2)
+
+        self.play(
+            FadeOut(quote)
+        )
+
+        self.wait(2)
+
         self.play(
             Write(q6),
             Write(q5),
@@ -189,9 +204,9 @@ class FunctionScene(Scene):
 
         self.wait(2)
 
-        xnn = TextMobject("$$ x = \\frac{a}{b} $$")
+        xnn = TextMobject("$$ x = \\frac{6}{8} $$")
         xnn.shift(UP + LEFT)
-        ynn = TextMobject("$$ y = \\frac{c}{d} $$")
+        ynn = TextMobject("$$ y = \\frac{9}{12} $$")
         ynn.shift(UP + RIGHT)
 
         self.play(
@@ -202,7 +217,7 @@ class FunctionScene(Scene):
 
         self.wait(2)
 
-        sol = TextMobject("$$ 6(\\frac{6}{8})^{2} + 9(\\frac{9}{12})^{3} = 8(\\frac{9}{12}) + 12(\\frac{9}{12})^{5} $$")
+        sol = TextMobject("$$ 6\\left(\\frac{6}{8}\\right)^{2} + 9\\left(\\frac{9}{12}\\right)^{3} = 8\\left(\\frac{9}{12}\\right) + 12\\left(\\frac{9}{12}\\right)^{5} $$")
         sol.shift(DOWN * 1)
 
         arrow2 = ArrowTip()
